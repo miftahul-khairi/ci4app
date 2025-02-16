@@ -39,10 +39,10 @@
                     <input type="text" class="form-control" id="nik" name="nik" required>
                 </div>
                 <div class="form-group">
-                    <label for="male">Male<span class="required-star">*</span></label>
-                    <input type="radio" id="male" name="jenis_kelamin" value="male" required>
+                    <label for="male">Laki-laki<span class="required-star">*</span></label>
+                    <input type="radio" id="male" name="jenis_kelamin" value="Laki-laki" required>
                     <label for="female">Female<span class="required-star">*</span></label>
-                    <input type="radio" id="female" name="jenis_kelamin" value="female" required>
+                    <input type="radio" id="female" name="jenis_kelamin" value="Perempuan" required>
                 </div>
                 <div class="form-group">
                     <label for="alamat">Alamat:</label>
@@ -79,6 +79,8 @@
         $('#addUserForm').on('submit', function (e) {
             e.preventDefault();
             var formData = new FormData(this);
+            // Log the form data for debugging
+            // console.log('Form Data:', formData.get('jenis_kelamin')); 
             $.ajax({
                 url: '<?= base_url('admin/add_user') ?>',
                 type: 'POST',
