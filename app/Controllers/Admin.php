@@ -33,6 +33,9 @@ class Admin extends Controller
      */
     public function addUser(): \CodeIgniter\HTTP\ResponseInterface
     {
+        //        Log the form data for debugging
+        //        log_message('info', 'Form data: ' . json_encode($this->request->getPost()));
+
         $validation = \Config\Services::validation();
 
         $validation->setRules([
@@ -42,12 +45,15 @@ class Admin extends Controller
             'gelar_belakang' => 'required|min_length[2]|max_length[50]',
             'nip' => 'permit_empty|numeric|exact_length[18]',
             'nik' => 'required|numeric|exact_length[16]',
-            'jenis_kelamin' => 'required|in_list[male,female]',
+            'jenis_kelamin' => 'required|in_list[Laki-laki,Perempuan]',
             'alamat' => 'permit_empty|max_length[255]',
             'email' => 'required|valid_email|max_length[255]',
             'password' => 'required|min_length[8]',
             'level' => 'required|in_list[admin,user]',
         ]);
+
+        // Log the jenis_kelamin value
+        // log_message('info', 'Jenis Kelamin: ' . $this->request->getPost('jenis_kelamin'));
 
         if (!$validation->withRequest($this->request)->run()) {
             log_message('error', 'Validation failed: ' . json_encode($validation->getErrors()));
@@ -71,6 +77,8 @@ class Admin extends Controller
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'level' => $this->request->getPost('level'),
         ];
+// Log the data to be inserted
+//        log_message('info', 'Data to be inserted: ' . json_encode($data));
 
         if (!$userModel->insert($data)) {
             log_message('error', 'Failed to insert user: ' . json_encode($userModel->errors()));
